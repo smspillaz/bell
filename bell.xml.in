@@ -2,7 +2,7 @@
     <plugin name="bell" useBcop="true">
 	<_short>Audible Bell</_short>
 	<_long>Uses libcanberra to play an audible sound for the system bell</_long>
-	<category>Utility/category>
+	<category>Utility</category>
 	<deps>
 	</deps>
 	<options>
