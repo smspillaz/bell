@@ -10,12 +10,12 @@ AudibleBell::handleEvent (XEvent *event)
 {
     if (event->type == screen->xkbEvent ())
     {
-		XkbAnyEvent *xkbEvent = (XkbAnyEvent *) event;
+        XkbAnyEvent *xkbEvent = (XkbAnyEvent *) event;
 
-		if (xkbEvent->xkb_type == XkbBellNotify)
-		{
-			if (optionGetAudibleBell ())
-			{
+        if (xkbEvent->xkb_type == XkbBellNotify)
+        {
+            if (optionGetAudibleBell ())
+            {
 			    ca_context *c;
                 int ret;
 
@@ -37,8 +37,8 @@ AudibleBell::handleEvent (XEvent *event)
                                        NULL);
                 
                 ca_context_destroy (c);
-			}
-		}
+            }
+        }
     }
     
     screen->handleEvent (event);
@@ -46,8 +46,8 @@ AudibleBell::handleEvent (XEvent *event)
 
 
 AudibleBell::AudibleBell (CompScreen *screen) :
-	PluginClassHandler <AudibleBell, CompScreen> (screen),
-	screen (screen)
+    PluginClassHandler <AudibleBell, CompScreen> (screen),
+    screen (screen)
 {
     ScreenInterface::setHandler (screen); // Sets the screen function hook handler
 }
@@ -62,7 +62,7 @@ BellPluginVTable::init ()
 {
     if (!CompPlugin::checkPluginABI ("core", CORE_ABIVERSION))
     {
-		return false;
+         return false;
     }
     return true;
 }
