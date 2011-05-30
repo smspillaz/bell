@@ -4,24 +4,23 @@
 #include "bell_options.h"
 
 class AudibleBell :
+    public PluginClassHandler<AudibleBell, CompScreen>,
     public ScreenInterface,
-	public PluginClassHandler<AudibleBell, CompScreen>,
-	public BellOptions
+    public BellOptions
 {
     public:
-		AudibleBell (CompScreen *screen);
-		~AudibleBell ();
-		
-		CompScreen      *screen;
 
-		void
-		handleEvent (XEvent *event);
+        AudibleBell (CompScreen *screen);
+        ~AudibleBell ();
+
+	void
+	handleEvent (XEvent *event);
 };
 
 class BellPluginVTable :
-	public CompPlugin::VTableForScreen<AudibleBell>
+    public CompPlugin::VTableForScreen<AudibleBell>
 {
     public:
-		bool init ();
+        bool init ();
 };
 
