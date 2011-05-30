@@ -16,7 +16,7 @@ AudibleBell::handleEvent (XEvent *event)
         {
             if (optionGetAudibleBell ())
             {
-			    ca_context *c;
+                ca_context *c;
                 int ret;
 
                 ret = ca_context_create (&c);
