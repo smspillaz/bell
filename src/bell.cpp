@@ -41,13 +41,17 @@ AudibleBell::handleEvent (XEvent *event)
 			}
 		}
     }
+    
+    screen->handleEvent (event);
 }
 
 
 AudibleBell::AudibleBell (CompScreen *screen) :
-	PluginClassHandler <AudibleBell, CompScreen> (screen)
+	PluginClassHandler <AudibleBell, CompScreen> (screen),
+	screen (screen)
 {
-
+    ScreenInterface::setHandler (screen); // Sets the screen function hook handler
+    //screen->handleEventSetEnabled (this, true);
 }
 
 AudibleBell::~AudibleBell ()
