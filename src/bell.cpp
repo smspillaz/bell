@@ -2,6 +2,7 @@
 #include <core/atoms.h>
 
 #include <canberra.h>
+#include <stdlib.h>
 
 COMPIZ_PLUGIN_20090315 (bell, BellPluginVTable);
 
@@ -16,9 +17,10 @@ AudibleBell::handleEvent (XEvent *event)
 		{
 			XkbBellNotifyEvent *xkbBellEvent = (XkbBellNotifyEvent *) xkbEvent;
 
-			/* if (optionGetAudibleBell ())
+			if (optionGetAudibleBell ())
 			{
-			*/
+			    system("beep");
+/*
 			    ca_context *c;
                 ca_proplist *p;
                 int res;
@@ -30,13 +32,13 @@ AudibleBell::handleEvent (XEvent *event)
                 
                 ca_context_open (c);
 
-                /* First, we try to play a real sound ... */
                 res = ca_context_play_full (c, 1, p, NULL, NULL);
 
                 ca_proplist_destroy (p);
                 ca_context_destroy (c);
+*/
 
-			/* } */
+			}
 		}
     }
 }
