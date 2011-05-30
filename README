@@ -1,0 +1,4 @@
+Bell plugin for Compiz 0.9x
+
+A simple plugin which lets Compiz make an audible bell sound whenever
+X causes the system bell event. Depends on libcanberra.
