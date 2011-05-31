@@ -10,17 +10,18 @@ AudibleBell::handleEvent (XEvent *event)
 {
     if (event->type == screen->xkbEvent ())
     {
-        XkbAnyEvent *xkbEvent = (XkbAnyEvent *) event;
+        XkbAnyEvent *xkb_any_event = (XkbAnyEvent *) event;
 
-        if (xkbEvent->xkb_type == XkbBellNotify)
+        if (xkb_any_event->xkb_type == XkbBellNotify)
         {
             ca_context *c;
             int ret;
 
+            /* try canberra... */
             ret = ca_context_create (&c);
 
             ret = ca_context_change_props (c,
-                                           CA_PROP_APPLICATION_NAME, "Compiz bell plugin",
+                                           CA_PROP_APPLICATION_NAME, "Compiz bell",
                                            CA_PROP_APPLICATION_ID, "org.freedesktop.compiz.Bell",
                                            CA_PROP_WINDOW_X11_SCREEN, screen->displayString(),
                                            NULL);
@@ -35,6 +36,36 @@ AudibleBell::handleEvent (XEvent *event)
                                   NULL);
                 
             ca_context_destroy (c);
+            
+            /* if no canberra, try using X */
+            if (ret != CA_SUCCESS && ret != CA_ERROR_DISABLED)
+            {
+                int xkb_base_error_type, xkb_opcode;
+                XkbBellNotifyEvent *xkb_bell_event = (XkbBellNotifyEvent*) xkb_any_event;
+                Display *display = screen->dpy();
+                
+                if (XkbQueryExtension (display, &xkb_opcode, 
+			                            &xkb_any_event->xkb_type, 
+			                            &xkb_base_error_type, 
+			                            NULL,
+			                            NULL))
+                {
+                      
+                     XkbSelectEvents (display,
+		                              XkbUseCoreKbd,
+		                              XkbBellNotifyMask,
+		                              XkbBellNotifyMask);
+                     XkbChangeEnabledControls (display,
+				                               XkbUseCoreKbd,
+				                               XkbAudibleBellMask,
+                                               0);
+                     XkbForceDeviceBell (display, 
+                                         xkb_bell_event->device, 
+                                         xkb_bell_event->bell_class, 
+                                         xkb_bell_event->bell_id, 
+                                         xkb_bell_event->percent);
+                }
+            }
         }
     }
     
