@@ -30,7 +30,7 @@ AudibleBell::handleEvent (XEvent *event)
 
             ret = ca_context_play (c, 0,
                                   CA_PROP_EVENT_ID, "bell",
-                                  /* CA_PROP_MEDIA_FILENAME, "/usr/share/sounds/ubuntu/stereo/bell.ogg", */
+                                  CA_PROP_MEDIA_FILENAME, "/usr/share/sounds/ubuntu/stereo/bell.ogg",
                                   CA_PROP_CANBERRA_CACHE_CONTROL, "permanent",
                                   NULL);
                 
