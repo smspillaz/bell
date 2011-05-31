@@ -1,12 +1,9 @@
 #include <core/core.h>
 #include <core/pluginclasshandler.h>
 
-#include "bell_options.h"
-
 class AudibleBell :
     public ScreenInterface,
-	public PluginClassHandler<AudibleBell, CompScreen>,
-	public BellOptions
+	public PluginClassHandler<AudibleBell, CompScreen>
 {
     public:
 		AudibleBell (CompScreen *screen);
