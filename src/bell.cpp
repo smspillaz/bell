@@ -17,7 +17,6 @@ AudibleBell::handleEvent (XEvent *event)
             ca_context *c;
             int ret;
 
-            /* try canberra... */
             ret = ca_context_create (&c);
 
             ret = ca_context_change_props (c,
@@ -37,7 +36,6 @@ AudibleBell::handleEvent (XEvent *event)
                 
             ca_context_destroy (c);
             
-            /* if no canberra, try using X */
             if (ret != CA_SUCCESS && ret != CA_ERROR_DISABLED)
             {
                 int xkb_base_error_type, xkb_opcode;
