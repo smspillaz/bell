@@ -1,6 +1,8 @@
 #include <core/core.h>
 #include <core/pluginclasshandler.h>
 
+#include <canberra.h>
+
 #include "bell_options.h"
 
 class AudibleBell :
@@ -13,6 +15,7 @@ class AudibleBell :
 		~AudibleBell ();
 		
 		CompScreen      *screen;
+		ca_context *context;
 
 		void
 		handleEvent (XEvent *event);
