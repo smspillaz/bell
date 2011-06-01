@@ -17,6 +17,11 @@
 		<default>/usr/share/sounds/ubuntu/stereo/bell.ogg</default>
 		<hints>file;</hints>
 	    </option>
+	    <option name="bell" type="bell">
+		<_short>Audible Bell</_short>
+		<_long>Play sound on system bell</_long>
+		<default>true</default>
+	    </option>
 	</options>
     </plugin>
 </compiz>

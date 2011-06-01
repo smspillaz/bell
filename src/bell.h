@@ -16,8 +16,7 @@ class AudibleBell :
         AudibleBell (CompScreen *screen);
         ~AudibleBell ();
 
-	void
-	handleEvent (XEvent *event);
+	bool bell ();
 
     private:
 

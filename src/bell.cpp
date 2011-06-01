@@ -2,30 +2,23 @@
 
 COMPIZ_PLUGIN_20090315 (bell, BellPluginVTable);
 
-void
-AudibleBell::handleEvent (XEvent *event)
+bool
+AudibleBell::bell ()
 {
-    if (event->type == screen->xkbEvent ())
+    int error;
+
+    if ((error = ca_context_play (mCanberraContext, 0,
+	                          CA_PROP_EVENT_ID, "bell",
+	                          CA_PROP_MEDIA_FILENAME, mFilename.c_str (),
+	                          CA_PROP_CANBERRA_CACHE_CONTROL, "permanent",
+	                          NULL)) < 0)
     {
-        XkbAnyEvent *xkb_any_event = (XkbAnyEvent *) event;
-
-        if (xkb_any_event->xkb_type == XkbBellNotify)
-        {
-	    int error;
-
-	    if ((error = ca_context_play (mCanberraContext, 0,
-		                          CA_PROP_EVENT_ID, "bell",
-		                          CA_PROP_MEDIA_FILENAME, mFilename.c_str (),
-		                          CA_PROP_CANBERRA_CACHE_CONTROL, "permanent",
-		                          NULL)) < 0)
-	    {
-	        compLogMessage ("bell", CompLogLevelWarn, "couldn't play sound %s - %s",
-		                mFilename.c_str (), ca_strerror (error));
-	    }
-        }
+        compLogMessage ("bell", CompLogLevelWarn, "couldn't play sound %s - %s",
+	                mFilename.c_str (), ca_strerror (error));
     }
-    
-    screen->handleEvent (event);
+
+    /* Allow other plugins to handle bell event */
+    return false;
 }
 
 void
@@ -65,8 +58,7 @@ AudibleBell::AudibleBell (CompScreen *screen) :
 {
     int 					   error;
     boost::function <void (CompOption *, Options)> fileNameChangedCallback;
-
-    ScreenInterface::setHandler (screen); // Sets the screen function hook handler
+    boost::function <bool (CompAction *, CompAction::State, CompOption::Vector &)> bellCallback;
 
     if ((error = ca_context_create (&mCanberraContext)) < 0)
     {
@@ -102,8 +94,11 @@ AudibleBell::AudibleBell (CompScreen *screen) :
 
     fileNameChangedCallback =
 	boost::bind (&AudibleBell::filenameChange, this, _1, _2);
+    bellCallback =
+	boost::bind (&AudibleBell::bell, this);
 
     optionSetFilenameNotify (fileNameChangedCallback);
+    optionSetBellInitiate (bellCallback);
 }
 
 AudibleBell::~AudibleBell ()
