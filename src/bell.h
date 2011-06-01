@@ -16,6 +16,10 @@ class AudibleBell :
 
 		void
 		handleEvent (XEvent *event);
+		
+		void
+		filenameChange (CompOption *option,
+			            Options    num);
 };
 
 class BellPluginVTable :
