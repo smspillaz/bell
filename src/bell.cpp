@@ -32,39 +32,10 @@ AudibleBell::handleEvent (XEvent *event)
             ret = ca_context_play (c, 0,
                                   CA_PROP_EVENT_ID, "bell",
                                   CA_PROP_MEDIA_FILENAME, filename,
-                                  CA_PROP_CANBERRA_CACHE_CONTROL, "never", // fixme: should be "permanent
+                                  CA_PROP_CANBERRA_CACHE_CONTROL, "permanent",
                                   NULL);
                 
             ca_context_destroy (c);
-            
-            if (ret != CA_SUCCESS && ret != CA_ERROR_DISABLED)
-            {
-                int xkb_base_error_type, xkb_opcode;
-                XkbBellNotifyEvent *xkb_bell_event = (XkbBellNotifyEvent*) xkb_any_event;
-                Display *display = screen->dpy();
-                
-                if (XkbQueryExtension (display, &xkb_opcode, 
-			                            &xkb_any_event->xkb_type, 
-			                            &xkb_base_error_type, 
-			                            NULL,
-			                            NULL))
-                {
-                      
-                     XkbSelectEvents (display,
-		                              XkbUseCoreKbd,
-		                              XkbBellNotifyMask,
-		                              XkbBellNotifyMask);
-                     XkbChangeEnabledControls (display,
-				                               XkbUseCoreKbd,
-				                               XkbAudibleBellMask,
-                                               0);
-                     XkbForceDeviceBell (display, 
-                                         xkb_bell_event->device, 
-                                         xkb_bell_event->bell_class, 
-                                         xkb_bell_event->bell_id, 
-                                         xkb_bell_event->percent);
-                }
-            }
         }
     }
     
