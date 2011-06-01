@@ -16,6 +16,7 @@ AudibleBell::handleEvent (XEvent *event)
         {
             ca_context *c;
             int ret;
+            const char *filename = optionGetFilename().c_str();
 
             ret = ca_context_create (&c);
 
@@ -30,8 +31,8 @@ AudibleBell::handleEvent (XEvent *event)
 
             ret = ca_context_play (c, 0,
                                   CA_PROP_EVENT_ID, "bell",
-                                  CA_PROP_MEDIA_FILENAME, "/usr/share/sounds/ubuntu/stereo/bell.ogg",
-                                  CA_PROP_CANBERRA_CACHE_CONTROL, "permanent",
+                                  CA_PROP_MEDIA_FILENAME, filename,
+                                  CA_PROP_CANBERRA_CACHE_CONTROL, "never", // fixme: should be "permanent
                                   NULL);
                 
             ca_context_destroy (c);

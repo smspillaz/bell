@@ -10,5 +10,13 @@
                 <plugin>decor</plugin>
             </relation>
         </deps>
+        <options>
+            <option name="filename" type="string">
+		        <_short>Bell sound file name</_short>
+		        <_long>Name of file containing sound to play as bell</_long>
+		        <default>/usr/share/sounds/ubuntu/stereo/bell.ogg</default>
+		        <hints>file;</hints>
+		    </option>
+		</options>
     </plugin>
 </compiz>
