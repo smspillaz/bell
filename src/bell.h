@@ -1,6 +1,5 @@
 #include <core/core.h>
 #include <core/pluginclasshandler.h>
-#include <core/atoms.h>
 
 #include <canberra.h>
 
